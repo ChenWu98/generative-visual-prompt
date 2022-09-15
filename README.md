@@ -120,6 +120,182 @@ cd ckpts/
 wget https://www.dropbox.com/s/j2z9lha15mb2hfj/metfaces_debias.bin
 ```
 
+## Usage
+
+### Overview
+
+Generally, each block stands for an experiment, with the following exceptions:
+1. Each set notation `{A,B,C}` stands for several independent experiments. 
+You should always replace `{A,B,C}` with one of `A`, `B`, and `C`. 
+2. In [some cases](#inverse-graphics-model-guided-image-synthesis), evaluation and plotting are separated from training. These cases are usually marked by `After convergence`.
+3. For de-biasing with the moment constraint, the `(optional)` means that you can use the pre-trained beta-hat model following the [instruction above](#pre-trained-beta-hat-models-for-the-moment-constraint). 
+4. For [iterative control](#iterative-control), all blocks should be run sequentially. 
+
+Each command can be run on a single NVIDIA RTX A4000 GPU.
+Model checkpoints and image samples will be saved under `--output_dir`. 
+
+
+### CLIP-guided text-to-image synthesis
+
+#### StyleGAN2 FFHQ (1024) "a photo of {a baby, an asian man, a girl, a boy}"
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=clip_{a_baby,an_asian_man,a_girl,a_boy}_ffhq
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 50 --metric_for_best_model CLIPEnergy --greater_is_better false --save_strategy steps --save_steps 50 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 4 --num_train_epochs 10 --adafactor false --learning_rate 1e-3 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 2 --per_device_eval_batch_size 4 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+####  Diffusion Autoencoder FFHQ256 "a photo of a baby"
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=clip_a_baby_ffhq256_diffae
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1433 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 50 --metric_for_best_model CLIPEnergy --greater_is_better false --save_strategy steps --save_steps 50 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 4 --num_train_epochs 10 --adafactor false --learning_rate 1e-3 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 2 --per_device_eval_batch_size 4 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+#### StyleGAN2 Landscape (256) "{autumn, winter} scene"
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=clip_{autumn,winter}_scene_landscape
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 50 --metric_for_best_model CLIPEnergy --greater_is_better false --save_strategy steps --save_steps 50 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 2 --num_train_epochs 10 --adafactor false --learning_rate 1e-3 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 4 --per_device_eval_batch_size 8 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+#### StyleNeRF FFHQ (1024) "a photo of {a baby}"
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=clip_a_baby_ffhq1024_stylenerf
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 50 --metric_for_best_model CLIPEnergy --greater_is_better false --save_strategy steps --save_steps 50 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 4 --num_train_epochs 10 --adafactor false --learning_rate 1e-3 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 2 --per_device_eval_batch_size 4 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+#### BigGAN ImageNet (256) {"a photo of a glow and light dog", "an ink wash of a church near forest under moonlight", "a painting of a melancholy robot"}
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME={clip_photo_of_a_glow_and_light_dog_biggan,clip_ink_wash_of_a_church_near_forest_under_moonlight_biggan,clip_painting_of_a_melancholy_robot_biggan}
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 200 --metric_for_best_model CLIPEnergy --greater_is_better false --save_strategy steps --save_steps 200 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 15 --adafactor false --learning_rate 1e-3 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 4 --per_device_eval_batch_size 8 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+---
+
+### Inverse graphics model-guided image synthesis
+
+#### StyleGAN2 FFHQ (1024) pose control
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=inverse_graphics_pose_ffhq
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 100 --metric_for_best_model PoseEnergy --greater_is_better false --save_strategy steps --save_steps 100 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 10 --adafactor false --learning_rate 1e-3 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 4 --per_device_eval_batch_size 8 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+After convergence, evaluate and plot by running
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=inverse_graphics_pose_ffhq_test_fid
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 100 --metric_for_best_model PoseEnergy --greater_is_better false --save_strategy steps --save_steps 100 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 0 --adafactor true --learning_rate 1e-3 --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 4 --per_device_eval_batch_size 8 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true --resume_from_checkpoint output/inverse_graphics_pose_ffhq42 > $RUN_NAME$SEED.log 2>&1 &
+```
+
+---
+
+### Classifier-guided image synthesis
+#### StyleGAN2 FFHQ (1024) classifier control
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=class_{male,female,female_glasses,female_noglasses,male_glasses,male_noglasses,female_young,female_old,male_young,male_old,noeyeglasses_young,noeyeglasses_old,eyeglasses_young,eyeglasses_old,blond_hair,noblond_hair,eyeglasses,noeyeglasses}
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 50 --metric_for_best_model ClassEnergy --greater_is_better false --save_strategy steps --save_steps 50 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 10 --adafactor false --learning_rate 1e-3 --do_train --do_eval --do_predict --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 8 --per_device_eval_batch_size 4 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+---
+
+### De-biasing generative models with the moment constraint
+
+#### (Optional) Train beta-hat model for StyleGAN2 FFHQ (1024) 
+This step can be skipped if you download the pre-trained beta-hat model following the instruction above.
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=debias_ebm_ffhq
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 100 --metric_for_best_model get_debias_ebm/neg_weighted_loss --greater_is_better true --save_strategy steps --save_steps 100 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 500 --adafactor false --learning_rate 5e-2 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 1024 --per_device_eval_batch_size 16 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+After convergence, move the trained checkpoint to `ckpts/` by running
+```shell
+cd output/debias_ebm_ffhq42
+scp -r pytorch_model.bin ../../ckpts/ffhq_debias.bin
+```
+
+#### (Optional) Train beta-hat model for StyleGAN2 MetFaces (1024) 
+This step can be skipped if you download the pre-trained beta-hat model following the instruction above.
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=debias_ebm_metfaces
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 100 --metric_for_best_model get_debias_ebm/neg_weighted_loss --greater_is_better true --save_strategy steps --save_steps 100 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 500 --adafactor false --learning_rate 5e-2 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 1024 --per_device_eval_batch_size 16 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+After convergence, move the trained checkpoint to `ckpts/` by running
+```shell
+cd output/debias_ebm_metfaces42
+scp -r pytorch_model.bin ../../ckpts/metfaces_debias.bin
+```
+
+#### StyleGAN2 FFHQ (1024) {race, age} de-bias, lambda = {1, 2}
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME={race,age}_debias_{1,2}_ffhq
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 200 --metric_for_best_model ffhq_debias/race_kl --greater_is_better false --save_strategy steps --save_steps 200 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 32 --num_train_epochs 500 --adafactor false --learning_rate 1e-3 --do_train --do_eval --do_predict --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+#### StyleGAN2 MetFaces (1024) {race, age, gender} de-bias, lambda = {1, 2}
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME={race,age,gender}_debias_{1,2}_metfaces
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 200 --metric_for_best_model metfaces_debias/age_kl --greater_is_better false --save_strategy steps --save_steps 200 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 32 --num_train_epochs 500 --adafactor false --learning_rate 1e-3 --do_train --do_eval --do_predict --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+---
+
+### Iterative control
+
+#### (Iteration 1) StyleGAN2 FFHQ (1024) "a photo of a person without makeup" 
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=clip_a_person_without_makeup
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 50 --metric_for_best_model CLIPEnergy --greater_is_better false --save_strategy steps --save_steps 50 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 10 --adafactor false --learning_rate 1e-3 --do_train --do_eval --do_predict --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 2 --per_device_eval_batch_size 4 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+After convergence, compute gender distribution by running
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=no_debias_person_without_makeup
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 50 --metric_for_best_model CLIPEnergy --greater_is_better false --save_strategy steps --save_steps 50 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 0 --adafactor false --learning_rate 1e-3 --do_eval --do_predict --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 2 --per_device_eval_batch_size 4 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+#### (Preparation for iteration 2) Train beta-hat model for StyleGAN2 FFHQ (1024) "a photo of a person without makeup" 
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=debias_ebm_person_without_makeup
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 100 --metric_for_best_model get_debias_ebm/neg_weighted_loss --greater_is_better true --save_strategy steps --save_steps 100 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 500 --adafactor false --learning_rate 5e-2 --do_train --do_eval --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 1024 --per_device_eval_batch_size 16 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+After convergence, move the trained checkpoint to `ckpts/` by running
+```shell
+cd output/debias_ebm_person_without_makeup42
+scp -r pytorch_model.bin ../../ckpts/person_without_makeup_gender_debias.bin
+```
+
+#### (Iteration 2) StyleGAN2 FFHQ (1024) "a photo of a person without makeup" gender de-bias, lambda = 2
+```shell
+export CUDA_VISIBLE_DEVICES=0
+export RUN_NAME=gender_debias_2_person_without_makeup
+export SEED=42
+nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 200 --metric_for_best_model ffhq_debias/gender_kl --greater_is_better false --save_strategy steps --save_steps 200 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 32 --num_train_epochs 500 --adafactor false --learning_rate 1e-3 --do_train --do_eval --do_predict --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 8 --per_device_eval_batch_size 8 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
+```
+
+
 ## Contact
 [Issues](https://github.com/ChenWu98/Generative-Visual-Prompt/issues) are welcome if you have any question about the code. 
 If you would like to discuss the method, please contact [Chen Henry Wu](https://github.com/ChenWu98).
