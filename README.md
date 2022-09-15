@@ -107,14 +107,14 @@ wget https://www.dropbox.com/s/yzc8ydaa4ggj1zs/celeba.zip
 unzip celeba.zip 
 ```
 
-### Pre-trained beta-hat models (for the moment constraint)
-For the moment constraint experiments, one need to train the beta-hat model based on the given pre-trained generative model and moment constraint. Although you can train the beta-hat models following our instruction described later, we provide the pre-trained checkpoints here.
-1. FFHQ (1024) beta-hat model
+### Pre-trained $\hat{\beta}$ models (for the moment constraint)
+For the moment constraint experiments, one need to train the $\hat{\beta}$ model based on the given pre-trained generative model and moment constraint. Although you can train the $\hat{\beta}$ models following our instruction described later, we provide the pre-trained checkpoints here.
+1. FFHQ (1024) $\hat{\beta}$ model
 ```shell
 cd ckpts/
 wget https://www.dropbox.com/s/htdfv5w1xzsnajj/ffhq_debias.bin
 ```
-2. MetFaces (1024) beta-hat model
+2. MetFaces (1024) $\hat{\beta}$ model
 ```shell
 cd ckpts/
 wget https://www.dropbox.com/s/j2z9lha15mb2hfj/metfaces_debias.bin
@@ -128,7 +128,7 @@ Generally, each block stands for an experiment, with the following exceptions:
 1. Each set notation `{A,B,C}` stands for several independent experiments. 
 You should always replace `{A,B,C}` with one of `A`, `B`, and `C`. 
 2. In [some cases](#inverse-graphics-model-guided-image-synthesis), evaluation and plotting are separated from training. These cases are usually marked by `After convergence`.
-3. For de-biasing with the moment constraint, the `(optional)` means that you can use the pre-trained beta-hat model following the [instruction above](#pre-trained-beta-hat-models-for-the-moment-constraint). 
+3. For de-biasing with the moment constraint, the `(optional)` means that you can use the pre-trained $\hat{\beta}$ model following the [instruction above](#pre-trained-$\hat{\beta}$-models-for-the-moment-constraint). 
 4. For [iterative control](#iterative-control), all blocks should be run sequentially. 
 
 Each command can be run on a single NVIDIA RTX A4000 GPU.
@@ -211,8 +211,8 @@ nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 m
 
 ### De-biasing generative models with the moment constraint
 
-#### (Optional) Train beta-hat model for StyleGAN2 FFHQ (1024) 
-This step can be skipped if you download the pre-trained beta-hat model following the instruction above.
+#### (Optional) Train $\hat{\beta}$ model for StyleGAN2 FFHQ (1024) 
+This step can be skipped if you download the pre-trained $\hat{\beta}$ model following the instruction above.
 ```shell
 export CUDA_VISIBLE_DEVICES=0
 export RUN_NAME=debias_ebm_ffhq
@@ -225,8 +225,8 @@ cd output/debias_ebm_ffhq42
 scp -r pytorch_model.bin ../../ckpts/ffhq_debias.bin
 ```
 
-#### (Optional) Train beta-hat model for StyleGAN2 MetFaces (1024) 
-This step can be skipped if you download the pre-trained beta-hat model following the instruction above.
+#### (Optional) Train $\hat{\beta}$ model for StyleGAN2 MetFaces (1024) 
+This step can be skipped if you download the pre-trained $\hat{\beta}$ model following the instruction above.
 ```shell
 export CUDA_VISIBLE_DEVICES=0
 export RUN_NAME=debias_ebm_metfaces
@@ -274,7 +274,7 @@ export SEED=42
 nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 main.py --seed $SEED --cfg experiments/$RUN_NAME.cfg --run_name $RUN_NAME$SEED --logging_strategy steps --logging_first_step true --logging_steps 4 --evaluation_strategy steps --eval_steps 50 --metric_for_best_model CLIPEnergy --greater_is_better false --save_strategy steps --save_steps 50 --save_total_limit 1 --load_best_model_at_end --gradient_accumulation_steps 1 --num_train_epochs 0 --adafactor false --learning_rate 1e-3 --do_eval --do_predict --output_dir output/$RUN_NAME$SEED --overwrite_output_dir --per_device_train_batch_size 2 --per_device_eval_batch_size 4 --eval_accumulation_steps 4 --ddp_find_unused_parameters true --verbose true > $RUN_NAME$SEED.log 2>&1 &
 ```
 
-#### (Preparation for iteration 2) Train beta-hat model for StyleGAN2 FFHQ (1024) "a photo of a person without makeup" 
+#### (Preparation for iteration 2) Train $\hat{\beta}$ model for StyleGAN2 FFHQ (1024) "a photo of a person without makeup" 
 ```shell
 export CUDA_VISIBLE_DEVICES=0
 export RUN_NAME=debias_ebm_person_without_makeup
