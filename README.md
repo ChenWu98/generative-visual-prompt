@@ -42,6 +42,38 @@ pip install git+https://github.com/openai/CLIP.git
 3. Install [PyTorch 3D](https://github.com/facebookresearch/pytorch3d) (only needed for experiments with StyleNeRF).
 4. Set up [wandb](https://wandb.ai/) for logging (registration is required). You should modify the ```setup_wandb``` function in ```main.py``` to accomodate your wandb credentials.
 
+## Pre-trained checkpoints
+
+### Pre-trained generative models
+We provide a unified interface for various pre-trained generative models. Checkpoints for generative models used in this paper are provided below. 
+1. StyleGAN2
+```shell
+cd ckpts/
+wget https://www.dropbox.com/s/iy0dkqnkx7uh2aq/ffhq.pt
+wget https://www.dropbox.com/s/lmjdijm8cfmu8h1/metfaces.pt
+wget https://www.dropbox.com/s/z1vts069w683py5/afhqcat.pt
+wget https://www.dropbox.com/s/a0hvdun57nvafab/stylegan2-church-config-f.pt
+wget https://www.dropbox.com/s/x1d19u8zd6yegx9/stylegan2-car-config-f.pt
+wget https://www.dropbox.com/s/hli2x42ekdaz2br/landscape.pt
+```
+2. Diffusion Autoencoder
+```shell
+cd ckpts/
+wget https://www.dropbox.com/s/ej0jj8g7crvtb5e/diffae_ffhq256.ckpt
+wget https://www.dropbox.com/s/w5y89y57r9nd1jt/diffae_ffhq256_latent.pkl
+wget https://www.dropbox.com/s/rsbpxaswnfzsyl1/diffae_ffhq128.ckpt
+wget https://www.dropbox.com/s/v1dvsj6oklpz652/diffae_ffhq128_latent.pkl
+```
+3. StyleNeRF
+```shell
+cd ckpts/
+wget https://www.dropbox.com/s/n80cr7isveh5yfu/StyleNeRF_ffhq_1024.pkl
+```
+3. BigGAN
+```text
+# BigGAN will be downloaded automatically
+```
+
 ## Contact
 [Issues](https://github.com/ChenWu98/Generative-Visual-Prompt/issues) are welcome if you have any question about the code. 
 If you would like to discuss the method, please contact [Chen Henry Wu](https://github.com/ChenWu98).
