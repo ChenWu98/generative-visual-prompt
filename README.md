@@ -41,3 +41,9 @@ pip install git+https://github.com/openai/CLIP.git
 2. Install `torch` and `torchvision` based on your CUDA version. 
 3. Install [PyTorch 3D](https://github.com/facebookresearch/pytorch3d) (only needed for experiments with StyleNeRF).
 4. Set up [wandb](https://wandb.ai/) for logging (registration is required). You should modify the ```setup_wandb``` function in ```main.py``` to accomodate your wandb credentials.
+
+## Contact
+[Issues](https://github.com/ChenWu98/Generative-Visual-Prompt/issues) are welcome if you have any question about the code. 
+If you would like to discuss the method, please contact [Chen Henry Wu](https://github.com/ChenWu98).
+
+<a href="https://github.com/ChenWu98"><img src="https://avatars.githubusercontent.com/u/28187501?v=4"  width="50" /></a>
