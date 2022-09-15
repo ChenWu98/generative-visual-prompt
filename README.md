@@ -128,7 +128,7 @@ Generally, each block stands for an experiment, with the following exceptions:
 1. Each set notation `{A,B,C}` stands for several independent experiments. 
 You should always replace `{A,B,C}` with one of `A`, `B`, and `C`. 
 2. In [some cases](#inverse-graphics-model-guided-image-synthesis), evaluation and plotting are separated from training. These cases are usually marked by `After convergence`.
-3. For de-biasing with the moment constraint, the `(optional)` means that you can use the pre-trained $\hat{\beta}$ model following the [instruction above](#pre-trained-$\hat{\beta}$-models-for-the-moment-constraint). 
+3. For de-biasing with the moment constraint, the `(optional)` means that you can use the pre-trained $\hat{\beta}$ model following the [instruction above](#pre-trained-hatbeta-models-for-the-moment-constraint). 
 4. For [iterative control](#iterative-control), all blocks should be run sequentially. 
 
 Each command can be run on a single NVIDIA RTX A4000 GPU.
