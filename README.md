@@ -34,7 +34,7 @@ but also enables _iterative_ controls when some controls are contingent on other
 <img src="docs/overview.png" align="middle">
 
 ## Contents
-+ [This repository](#generative-visual-prompt-unified-distributional-control-of--pre-trained-generative-vision-models)
++ [This repository](#generative-visual-prompt-unifying-distributional-control-of--pre-trained-generative-vision-models)
   + [Dependencies](#dependencies)
   + [Pre-trained checkpoints](#pre-trained-checkpoints)
     + [Pre-trained generative models](#pre-trained-generative-models)
