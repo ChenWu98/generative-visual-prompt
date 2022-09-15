@@ -9,8 +9,6 @@ NeurIPS 2022
 ### Notes
 1. The current code is not ready. I'll finish it before Sep 20. 
 
----
-
 ## Overview
 
 <img src="docs/first_fig.png" align="middle">
@@ -37,6 +35,8 @@ but also enables _iterative_ controls when some controls are contingent on other
 
 ## Contents
 + [This repository](#generative-visual-prompt-unifying-distributional-control-of-pre-trained-generative-models)
+  + [Overview](#overview)
+  + [Contents](#contents)
   + [Dependencies](#dependencies)
   + [Pre-trained checkpoints](#pre-trained-checkpoints)
   + [Usage](#usage)
