@@ -6,6 +6,9 @@ Chen Henry Wu, Saman Motamed, Shaunak Srivastava, Fernando De la Torre <br>
 Carnegie Mellon University <br>
 NeurIPS 2022
 
+### Notes
+1. The current code is not ready. I'll finish it before Sep 20. 
+
 ---
 
 <img src="docs/first_fig.png" align="middle">
