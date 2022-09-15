@@ -74,6 +74,49 @@ wget https://www.dropbox.com/s/n80cr7isveh5yfu/StyleNeRF_ffhq_1024.pkl
 # BigGAN will be downloaded automatically
 ```
 
+### Pre-trained off-the-shelf models
+PromptGen allows us to use arbitrary off-the-shelf models to control pre-trained generative models. The off-the-shelf models used in this paper are provided below. 
+1. CLIP
+```text
+# CLIP will be downloaded automatically
+```
+2. ArcFace IR-SE 50 model, provided by the Colab demo in [this repo](https://github.com/orpatashnik/StyleCLIP)
+```shell
+cd ckpts/
+wget https://www.dropbox.com/s/qg7co4azsv5sacm/model_ir_se50.pth
+```
+3. DECA model, provided by [this repo](https://github.com/YadiraF/DECA). 
+You should first download the [FLAME model](https://flame.is.tue.mpg.de/download.php), 
+choose **FLAME 2020** and unzip it, 
+copy `generic_model.pkl` into `model/lib/decalib/data/`, and then run the following command 
+```shell
+wget https://www.dropbox.com/s/972j1vgfd19b6gx/deca_model.tar -O model/lib/decalib/data/deca_model.tar
+```
+4. FairFace classifier, provided by [this repo](https://github.com/dchen236/FairFace) 
+```shell
+cd ckpts/
+wget https://www.dropbox.com/s/v1rp0uubk30esdh/res34_fair_align_multi_7_20190809.pt
+```
+5. CelebA classifier, trained by ourselves
+```shell
+cd ckpts/
+wget https://www.dropbox.com/s/yzc8ydaa4ggj1zs/celeba.zip
+unzip celeba.zip 
+```
+
+### Pre-trained beta-hat models (for the moment constraint)
+For the moment constraint experiments, one need to train the beta-hat model based on the given pre-trained generative model and moment constraint. Although you can train the beta-hat models following our instruction described later, we provide the pre-trained checkpoints here.
+1. FFHQ (1024) beta-hat model
+```shell
+cd ckpts/
+wget https://www.dropbox.com/s/htdfv5w1xzsnajj/ffhq_debias.bin
+```
+2. MetFaces (1024) beta-hat model
+```shell
+cd ckpts/
+wget https://www.dropbox.com/s/j2z9lha15mb2hfj/metfaces_debias.bin
+```
+
 ## Contact
 [Issues](https://github.com/ChenWu98/Generative-Visual-Prompt/issues) are welcome if you have any question about the code. 
 If you would like to discuss the method, please contact [Chen Henry Wu](https://github.com/ChenWu98).
