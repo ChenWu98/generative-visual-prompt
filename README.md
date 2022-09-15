@@ -42,7 +42,7 @@ conda activate generative_prompt
 pip install git+https://github.com/openai/CLIP.git
 ```
 2. Install `torch` and `torchvision` based on your CUDA version. 
-3. Install [PyTorch 3D](https://github.com/facebookresearch/pytorch3d) (only needed for experiments with StyleNeRF).
+3. Install [PyTorch 3D](https://github.com/facebookresearch/pytorch3d). Installing this library can be painful, but you can skip it if you are not using StyleNeRF or the pose experiments.
 4. Set up [wandb](https://wandb.ai/) for logging (registration is required). You should modify the ```setup_wandb``` function in ```main.py``` to accomodate your wandb credentials.
 
 ## Pre-trained checkpoints
