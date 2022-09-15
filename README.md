@@ -29,3 +29,15 @@ PromptGen not only offers _generality_ for algorithmic design and _modularity_ f
 but also enables _iterative_ controls when some controls are contingent on others. 
 
 <img src="docs/overview.png" align="middle">
+
+## Dependencies
+
+1. Create environment by running
+```shell
+conda env create -f environment.yml
+conda activate generative_prompt
+pip install git+https://github.com/openai/CLIP.git
+```
+2. Install `torch` and `torchvision` based on your CUDA version. 
+3. Install [PyTorch 3D](https://github.com/facebookresearch/pytorch3d) (only needed for experiments with StyleNeRF).
+4. Set up [wandb](https://wandb.ai/) for logging (registration is required). You should modify the ```setup_wandb``` function in ```main.py``` to accomodate your wandb credentials.
