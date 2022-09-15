@@ -86,7 +86,7 @@ cd ckpts/
 wget https://www.dropbox.com/s/qg7co4azsv5sacm/model_ir_se50.pth
 ```
 3. DECA model, provided by [this repo](https://github.com/YadiraF/DECA). 
-You should first download the [FLAME model](https://flame.is.tue.mpg.de/download.php), 
+You should first download the [FLAME model](https://flame.is.tue.mpg.de/download.php) (registration is required), 
 choose **FLAME 2020** and unzip it, 
 copy `generic_model.pkl` into `model/lib/decalib/data/`, and then run the following command 
 ```shell
