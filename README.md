@@ -33,6 +33,24 @@ but also enables _iterative_ controls when some controls are contingent on other
 
 <img src="docs/overview.png" align="middle">
 
+## Contents
++ [This repository](#generative-visual-prompt-unified-distributional-control-of--pre-trained-generative-vision-models)
+  + [Dependencies](#dependencies)
+  + [Pre-trained checkpoints](#pre-trained-checkpoints)
+    + [Pre-trained generative models](#pre-trained-generative-models)
+    + [Pre-trained off-the-shelf models](#pre-trained-off-the-shelf-models)
+    + [Pre-trained $\hat{\beta}$ models](#pre-trained-hatbeta-models-for-the-moment-constraint)
+  + [Usage](#usage)
+    + [Overview](#overview)
+    + [CLIP-guided text-to-image synthesis](#clip-guided-text-to-image-synthesis)
+    + [Inverse graphics model-guided image synthesis](#inverse-graphics-model-guided-image-synthesis)
+    + [Classifier-guided image synthesis](#classifier-guided-image-synthesis)
+    + [De-biasing generative models with the moment constraint](#de-biasing-generative-models-with-the-moment-constraint)
+    + [Iterative control](#iterative-control)
+  + [Citation](#citation)
+  + [Contact](#contact)
+
+
 ## Dependencies
 
 1. Create environment by running
