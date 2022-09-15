@@ -311,9 +311,14 @@ nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 m
 ```
 
 ## Citation
-If you find our work helpful, please cite as
+If you find this repository helpful, please cite as
 ```
-
+@inproceedings{promptgen2022,
+  title={Generative Visual Prompt: Unifying Distributional Control of Pre-Trained Generative Models},
+  author={Chen Henry Wu and Saman Motamed and Shaunak Srivastava and Fernando De la Torre},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2022},
+}
 ```
 
 
