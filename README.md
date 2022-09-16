@@ -9,8 +9,7 @@ NeurIPS 2022
 [**[Paper link]**](https://arxiv.org/abs/2209.06970)
 
 ### Notes
-1. The current code is not ready. I'll finish it before Sep 20. 
-2. Feel free to email me if you think I should cite your work! 
+1. Feel free to email me if you think I should cite your work! 
 
 ## Overview
 
