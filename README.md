@@ -8,6 +8,7 @@ NeurIPS 2022
 
 ### Notes
 1. The current code is not ready. I'll finish it before Sep 20. 
+2. Feel free to email me if you think I should cite your work! 
 
 ## Overview
 
