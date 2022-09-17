@@ -60,7 +60,10 @@ conda env create -f environment.yml
 conda activate generative_prompt
 pip install git+https://github.com/openai/CLIP.git
 ```
-2. Install `torch` and `torchvision` based on your CUDA version. 
+2. Install `torch` and `torchvision` based on your CUDA version. For instance, the following installation works for me.
+```shell
+pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
+```
 3. Install [PyTorch 3D](https://github.com/facebookresearch/pytorch3d). Installing this library can be painful, but you can skip it if you are not using StyleNeRF or the pose experiments.
 4. Set up [wandb](https://wandb.ai/) for logging (registration is required). You should modify the ```setup_wandb``` function in ```main.py``` to accomodate your wandb credentials.
 
