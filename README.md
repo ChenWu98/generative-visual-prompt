@@ -49,6 +49,7 @@ but also enables _iterative_ controls when some controls are contingent on other
     + [De-biasing generative models with the moment constraint](#de-biasing-generative-models-with-the-moment-constraint)
     + [Iterative control](#iterative-control)
   + [Citation](#citation)
+  + [License](#license)
   + [Contact](#contact)
 
 
@@ -328,6 +329,8 @@ If you find this repository helpful, please cite as
 }
 ```
 
+## License
+We use the X11 License. This license is identical to the MIT License, but with an extra sentence that prohibits using the copyright holders' names (Carnegie Mellon University in our case) for advertising or promotional purposes without written permission.
 
 ## Contact
 [Issues](https://github.com/ChenWu98/Generative-Visual-Prompt/issues) are welcome if you have any question about the code. 
