@@ -324,8 +324,9 @@ If you find this repository helpful, please cite as
 @inproceedings{promptgen2022,
   title={Generative Visual Prompt: Unifying Distributional Control of Pre-Trained Generative Models},
   author={Chen Henry Wu and Saman Motamed and Shaunak Srivastava and Fernando De la Torre},
-  booktitle={Advances in Neural Information Processing Systems},
+  booktitle={Thirty-Sixth Conference on Neural Information Processing Systems},
   year={2022},
+  url={https://openreview.net/forum?id=Gsbnnc--bnw}
 }
 ```
 
