@@ -6,7 +6,7 @@ Chen Henry Wu, Saman Motamed, Shaunak Srivastava, Fernando De la Torre <br>
 Carnegie Mellon University <br>
 NeurIPS 2022
 
-[**[Paper link]**](https://arxiv.org/abs/2209.06970) | [**[Website (in progress)]**](https://chenwu98.github.io/PromptGen/) | [**[Poster]**](./docs/poster.pdf)
+[**[Paper link]**](https://arxiv.org/abs/2209.06970) | [**[Website]**](https://chenwu98.github.io/PromptGen/) | [**[Poster]**](./docs/poster.pdf)
 
 ### Notes
 1. Feel free to email me if you think I should cite your work! 
