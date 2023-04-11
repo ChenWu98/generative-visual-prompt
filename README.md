@@ -1,4 +1,4 @@
-# Generative Visual Prompt: Unifying Distributional Control of Pre-Trained Generative Models
+# Generative Visual Prompt
 
 Official PyTorch implementation of our **NeurIPS 2022** paper <br>
 **Generative Visual Prompt: Unifying Distributional Control of Pre-Trained Generative Models** <br>
