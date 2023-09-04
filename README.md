@@ -8,9 +8,6 @@ NeurIPS 2022
 
 [**[Paper link]**](https://arxiv.org/abs/2209.06970) | [**[Website]**](https://chenwu98.github.io/PromptGen/) | [**[Poster]**](./docs/poster.pdf)
 
-### Notes
-1. Feel free to email me if you think I should cite your work! 
-
 ## Overview
 
 <img src="docs/first_fig.png" align="middle">
@@ -55,7 +52,7 @@ but also enables _iterative_ controls when some controls are contingent on other
 
 ## Dependencies
 
-1. Create environment by running
+1. Create an environment by running
 ```shell
 conda env create -f environment.yml
 conda activate generative_prompt
@@ -319,7 +316,7 @@ nohup python -m torch.distributed.launch --nproc_per_node 1 --master_port 1234 m
 ```
 
 ## Citation
-If you find this repository helpful, please cite as
+If you find this repository helpful, please cite it as
 ```
 @inproceedings{promptgen2022,
   title={Generative Visual Prompt: Unifying Distributional Control of Pre-Trained Generative Models},
@@ -334,7 +331,7 @@ If you find this repository helpful, please cite as
 We use the X11 License. This license is identical to the MIT License, but with an extra sentence that prohibits using the copyright holders' names (Carnegie Mellon University in our case) for advertising or promotional purposes without written permission.
 
 ## Contact
-[Issues](https://github.com/ChenWu98/Generative-Visual-Prompt/issues) are welcome if you have any question about the code. 
-If you would like to discuss the method, please contact [Chen Henry Wu](https://github.com/ChenWu98).
+[Issues](https://github.com/ChenWu98/Generative-Visual-Prompt/issues) are welcome if you have any questions about the code. 
+If you would like to discuss the method, please contact [Chen Henry Wu](https://chenwu.io/).
 
-<a href="https://github.com/ChenWu98"><img src="https://avatars.githubusercontent.com/u/28187501?v=4"  width="50" /></a>
+<a href="https://chenwu.io/"><img src="https://avatars.githubusercontent.com/u/28187501?v=4"  width="50" /></a>
